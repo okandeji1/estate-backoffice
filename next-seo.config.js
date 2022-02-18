@@ -1,5 +1,5 @@
 export default {
-    title: "Estate management solution",
+    title: "Septem Connect - Estate management solution",
     description: "Estate management solution",
     openGraph: {
         type: 'website',
