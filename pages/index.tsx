@@ -47,7 +47,7 @@ const Home = () => {
           </div>
           <div
             className="geoHomepageHeroImage"
-            style={{ backgroundImage: "url(/images/16bg80.jpg)" }}
+            style={{ backgroundImage: "url(/images/1680.jpg)" }}
           />
           <div className="homepage-hero-overlay" />
         </section>
