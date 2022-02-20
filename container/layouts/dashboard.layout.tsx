@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
 import { Button, Drawer, Layout, Menu, PageHeader, Tooltip } from "antd";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
@@ -27,6 +28,7 @@ import styled from "@emotion/styled";
 import { useTheme } from "@emotion/react";
 import ProfilePopup from "../../components/profile-popover.component";
 import ProfilePopover from "../../components/profile-popover.component";
+import { Footer } from "antd/lib/layout/layout";
 
 const { Header, Sider, Content } = Layout;
 
@@ -64,7 +66,7 @@ const AppMenu = () => {
             },
             {
               title: "Landlord List",
-              link: "/real-estate/users/landlord",
+              link: "/real-estate/users/landlords",
             },
             {
               title: "Artisans List",
@@ -130,7 +132,7 @@ const AppMenu = () => {
           subMenu: [
             {
               title: "Posts",
-              link: "/real-estate/blog/post",
+              link: "/real-estate/blog/posts",
             },
             {
               title: "Post Category",
@@ -143,8 +145,8 @@ const AppMenu = () => {
           icon: <FundProjectionScreenOutlined />,
           subMenu: [
             {
-              title: "Posts",
-              link: "/real-estate/mortegage/collector",
+              title: "Mortgage",
+              link: "/real-estate/mortegage/collectors",
             },
           ],
         },
@@ -161,7 +163,7 @@ const AppMenu = () => {
             },
             {
               title: "Configuration",
-              link: "/users/settings/configuration",
+              link: "/users/settings/configurations",
             },
           ],
         },
@@ -553,7 +555,7 @@ const DashboardLayout: any = (props: IOption) => {
         <AppMenu />
       </Sider>
       <Layout className="bg-white">
-        <Header className="flex items-center justify-between px-12 py-2 text-white bg-primary lg:bg-tertiary lg:text-primary">
+        <Header className="flex items-center justify-between px-12 py-2 text-white bg-primary lg:bg-lightPrimary lg:text-primary">
           {React.createElement(
             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
             {
@@ -635,7 +637,7 @@ const DashboardLayout: any = (props: IOption) => {
             <Button
               htmlType="button"
               // onClick={refresh}
-              className="flex flex-col items-center w-full h-16 max-h-screen mb-3 leading-6 md:hidden bg-tertiary">
+              className="flex flex-col items-center w-full h-16 max-h-screen mb-3 leading-6 md:hidden bg-lightPrimary">
               click me
             </Button>
           </Tooltip>
@@ -651,7 +653,9 @@ const DashboardLayout: any = (props: IOption) => {
             }
           />
         ) : null}
-        <Content className="p-4 lg:p-10 min-h-3/4">{children}</Content>
+        <Content className="p-4 lg:p-10 min-h-3/4">{children}
+        </Content>
+        <Footer >Septem Connect ©2022</Footer>
       </Layout>
     </DashboardStyled>
   );

@@ -14,16 +14,16 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-// import userReducer from "./slices/user.slice";
-// import loadingReducer from "./slices/loading.slice";
-// import appSettingsReducer from "./slices/app-settings.slice";
+import userReducer from "./slices/user.slice";
+import loadingReducer from "./slices/loading.slice";
+import appSettingsReducer from "./slices/app-settings.slice";
 // import financeReducer from "./slices/finance.slice";
 // import betReducer from "./slices/bet.slice";
 
 const rootReducer = combineReducers({
-  // user: userReducer,
-  // loading: loadingReducer,
-  // appSettings: appSettingsReducer,
+  user: userReducer,
+  loading: loadingReducer,
+  appSettings: appSettingsReducer,
   // finance: financeReducer,
   // bet: betReducer,
 });

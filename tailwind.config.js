@@ -3,7 +3,7 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
   },
   content: [
-    "./pages/**/*.{html,js, jsx, ts, tsx}",
+    "./pages/**/*.{js, jsx, ts, tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
     "./container/**/*.{js,ts,jsx,tsx}",
   ],

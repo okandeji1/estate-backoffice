@@ -1,11 +1,11 @@
 :root {
-  --color-primary: #0070C0;
-  --color-secondary: #ffc107;
-  --color-tertiary: #e7e7e7;
+  --color-primary: #2fc6e4;
+  --color-secondary: #dd4f46;
+  --color-tertiary: #a8238a;
   --color-success: #48bb78;
   --color-error: #f56565;
   --color-transparent: transparent;
-  --color-light-primary: #013d79a1;
+  --color-light-primary: #1d2f66;
 }
 
 *,
@@ -77,14 +77,14 @@ body {
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
-  background: #0070C0;
+  background: #3d2d6e;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0070C0;
+  background: #3d2d6e;
 }
 
 @tailwind base;
@@ -108,7 +108,7 @@ body {
 
   .btn-primary {
     @apply btn;
-    background-color: #0070C0;
+    background-color: #2fc6e4;
     color: #fff;
   }
   /* 
@@ -119,7 +119,7 @@ body {
 
   .btn-secondary {
     @apply btn;
-    background-color: #ffc107;
+    background-color: #dd4f46;
     color: #013d79;
   }
 
@@ -141,7 +141,7 @@ body {
 
   .btn-tertiary {
     @apply btn;
-    background-color: #e7e7e7;
+    background-color: #3d2d6e;
     color: #013d79;
   }
 
