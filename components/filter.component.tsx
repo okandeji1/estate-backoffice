@@ -515,7 +515,7 @@ const Filter = ({startingRole}) => {
               csvData={{
                 records: searchBetsData,
                 fileName: "Bet List",
-                source: "BETLIST",
+                source: "USERS",
                 // disabled: searchBetsData?.loading === "LOADING",
               }}
             />

@@ -15,17 +15,18 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/user.slice";
+import propertySlice from "./slices/property.slice";
 import loadingReducer from "./slices/loading.slice";
 import appSettingsReducer from "./slices/app-settings.slice";
-// import financeReducer from "./slices/finance.slice";
+import packageReducer from "./slices/package.slice";
 // import betReducer from "./slices/bet.slice";
 
 const rootReducer = combineReducers({
   user: userReducer,
   loading: loadingReducer,
   appSettings: appSettingsReducer,
-  // finance: financeReducer,
-  // bet: betReducer,
+  property: propertySlice,
+  package: packageReducer,
 });
 
 const persistConfig = {

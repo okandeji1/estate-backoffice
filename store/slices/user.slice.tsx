@@ -96,18 +96,16 @@ const userSlice = createSlice({
       state.user.data.accessToken = action.payload;
     },
 
-    // setLogout: (state) => {
-    //   router.push("/sign-in");
-    //   state.user.data = null;
-    //   state.logout = true;
-    //   state.isAuthenticated = false;
-    // },
+    setLogout: (state) => {
+      state.user.data = null;
+      state.isAuthenticated = false;
+      router.push("/");
+    },
 
     refresh: (state) => {
-      router.push("/");
       state.user.data = null;
-      state.logout = true;
       state.isAuthenticated = false;
+      router.push("/");
     },
 
     // setChangePassword: (state, action) => {
@@ -139,11 +137,35 @@ const userSlice = createSlice({
         ...action.payload,
         loading: "SUCCEEDED",
       };
-
-      router.push(`/real-estate/${state.user.data.role}/overview`);
+      router.push('/real-estate/overview');
     },
     //@ts-ignore
     [login.rejected]: (state, action) => {
+      state.user = {
+        ...state.user,
+        ...action.payload,
+        loading: "ERRORED",
+      };
+    },
+
+    // @ts-ignore
+    [registerUser.pending]: (state, action) => {
+      state.user = {
+        ...state.user,
+        loading: "LOADING",
+      };
+    },
+    //@ts-ignore
+    [registerUser.fulfilled]: (state, action) => {
+      state.user = {
+        ...state.user,
+        ...action.payload,
+        loading: "SUCCEEDED",
+      };
+      router.push('/');
+    },
+    //@ts-ignore
+    [registerUser.rejected]: (state, action) => {
       state.user = {
         ...state.user,
         ...action.payload,
@@ -281,7 +303,7 @@ export const selectUsers = (state) => state.user.users;
 export const {
   setUser,
   setToken,
-//   setLogout,
+  setLogout,
 //   setChangePassword,
 //   setUpdateData,
 } = userSlice.actions;

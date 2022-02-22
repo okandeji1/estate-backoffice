@@ -1,25 +1,42 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import { Button, Col, Popover, Row, Table, Tooltip, Typography } from "antd";
+import {
+  Breadcrumb,
+  Button,
+  Col,
+  Popover,
+  Row,
+  Table,
+  Tooltip,
+  Typography,
+} from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
-
-import AppSearch from "../../../components/app-search.component";
-import AppTable from "../../../components/app-table.component";
-import ExportExcel from "../../../components/export-excel.component";
-import Wrapper from "../../../container/layouts/dashboard.layout";
+import dynamic from "next/dynamic";
+import AppSearch from "../components/app-search.component";
+import AppTable from "../components/app-table.component";
+import ExportExcel from "../components/export-excel.component";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
-import Filter from "../../../components/filter.component";
-import { selectProperties, getProperties } from "../../../store/slices/property.slice";
-import { capitalize } from "../../../util/utils";
+import { capitalize } from "../util/utils";
+import { setShowAuthenticateUser } from "../store/slices/app-settings.slice";
+import { selectUsers, getUsers } from "../store/slices/user.slice";
 import { EditOutlined, UserDeleteOutlined } from "@ant-design/icons";
 
+const AuthenticateUser = dynamic(
+  () => import("../components/authenticate-user")
+);
 
-const Property = () => {
+const Users = ({ role }) => {
   const screens = useBreakpoint();
   const dispatch = useDispatch();
-  const properties = useSelector(selectProperties);
-  
+  const [action, setAction] = useState<any>();
+  const users = useSelector(selectUsers);
+
+  const showAuth = (action: any) => {
+    setAction(action);
+    dispatch(setShowAuthenticateUser({ action: action, visible: true }));
+  };
+
   const fullColumns = [
     {
       title: "#",
@@ -31,7 +48,7 @@ const Property = () => {
     },
 
     {
-      title: "Title",
+      title: "Name",
       render: (text, record) => (
         <Button
           type="ghost"
@@ -45,46 +62,34 @@ const Property = () => {
           //     );
           //   }}
           className="text-blue-500 border-0">
-          {record.title}
+          {`${record.firstName} ${record.lastName}`}
         </Button>
       ),
-      key: "title",
+      key: "name",
       ellipsis: true,
 
       align: "center",
+      sorter: (a, b) => a.firstName - b.firstName,
     },
     {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
+      title: "Phone Number",
+      key: "phoneNumber",
+      dataIndex: "phoneNumber",
       ellipsis: true,
       align: "center",
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-      ellipsis: true,
-      align: "center",
-    },
-    {
-      title: "City",
-      dataIndex: "city",
-      key: "city",
-      ellipsis: true,
-      align: "center",
-    },
-    {
-      title: "State",
-      dataIndex: "state",
-      key: "state",
+      title: "Email",
+      key: "email",
+      dataIndex: "email",
       ellipsis: true,
       align: "center",
     },
     {
       title: "Date Added",
       key: "createdAt",
-        render: (text, record) => dayjs(record.createdAt).format("MMM D, YYYY h:mm A"),
+      render: (text, record) =>
+        dayjs(record.createdAt).format("MMM D, YYYY h:mm A"),
       ellipsis: true,
       align: "center",
     },
@@ -171,48 +176,70 @@ const Property = () => {
     },
   ];
 
-  const handleTableChange = () => {}
+  const handleTableChange = () => {};
+  const searchBetsData = [
+    {
+      firstName: "firstName",
+      lastName: "lastName",
+      username: "username",
+      email: "email",
+      user: "firstName",
+    },
+    {
+      firstName: "firstName",
+      lastName: "lastName",
+      username: "username",
+      email: "email",
+      user: "firstName",
+    },
+    {
+      firstName: "firstName",
+      lastName: "lastName",
+      username: "username",
+      email: "email",
+      user: "firstName",
+    },
+  ];
 
   useEffect(() => {
-    dispatch(getProperties({ query: {  } }));
+    dispatch(getUsers({ query: { role: role } }));
   }, []);
 
   return (
     <div>
+      <AuthenticateUser action={action} />
+
       <PageStyled>
         <UserStyled>
-          <Typography.Title level={4} className="title">
-            Property List
+          <Typography.Title level={4} className="title text-primary">
+            {`${capitalize(role)}'s List `}
           </Typography.Title>
         </UserStyled>
 
-        {/* <Filter startingRole='admin' /> */}
         <div className="flex flex-col justify-between items-center md:flex-row w-full">
           <AppSearch className="order-2 md:order-1" />
           <div className="flex w-full order-1 md:order-2 justify-between md:justify-end items-center mb-2">
           <ExportExcel
             csvData={{
-              records: properties?.data,
-              fileName: 'Properties',
-              source: "PROPERTIES",
-              disabled: properties?.loading === "LOADING",
+              records: users.data,
+              fileName: `${capitalize(role)} List `,
+              source: "USERS",
+              disabled: users?.loading === "LOADING",
             }}
           />
           <Button
             className="btn-secondary ml-3"
-            // onClick={() => showAuth("REGISTER")}
-            >
-
-            {'Add New Properties'}
+            onClick={() => showAuth("REGISTER")}>
+            {`Add New ${capitalize(role)}`}
           </Button>
           </div>
         </div>
-        <div style={{overflowX: "auto"}}>
+        <div style={{ overflowX: "auto" }}>
           <AppTable
             columns={fullColumns}
-            data={properties?.data}
-            page='10'
-            title={() => "Property List"}
+            data={users.data}
+            page="10"
+            title={() => "Users List"}
             onChange={handleTableChange}
           />
         </div>
@@ -246,6 +273,4 @@ const PageStyled = styled.div`
   }
 `;
 
-Property.Layout = Wrapper;
-
-export default Property;
+export default Users;

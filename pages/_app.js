@@ -12,8 +12,6 @@ import "../styles/index.css";
 import SEO from "../next-seo.config";
 import store from "../store/store";
 import theme from "../theme/theme";
-// import { setToken, setWallet } from "../store/slices/user.slice";
-// import {setLoading} from "../store/slices/loading.slice";
 import { openNotification } from "../components/notify";
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -27,17 +25,9 @@ axios.interceptors.request.use(
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
     }
-    // if (config.meta?.enableLoading) {
-    //   store.dispatch(setLoading(true));
-    // }
-
     return config;
   },
   (error) => {
-    // if (error?.meta?.enableLoading) {
-    //   store.dispatch(setLoading(false));
-    // }
-
     return Promise.reject(error);
   }
 );
@@ -51,38 +41,15 @@ axios.interceptors.response.use(
         description: response.data.message,
       });
     }
-    if (response.config.meta?.refresh) {
-      axios({
-        url: `/api/v1/users/me`,
-        method: "get",
-      }).then((res) => {
-        return store.dispatch(setWallet(res.data.data.wallet));
-      });
-    }
-
-    // if (response.config.meta?.enableLoading) {
-    //   store.dispatch(setLoading(false));
-    // }
-
-    // FIXME: to be removed later, Already replaced with callbacks
-    if (response.config.meta?.callback) {
-      response.config.meta.callback();
-    }
-
-    // if (response.config.meta?.callbacks?.length > 0) {
-    //   for (const item of response.config.meta.callbacks) {
-    //     item.callback();
-    //   }
-    // }
 
     return response;
   },
   async function (error) {
-    console.log(error.toJSON())
+    // console.log(error.toJSON())
     const originalRequest = error.config || error.response?.config;
-    console.log('originalRequest', originalRequest);
+    // console.log('originalRequest', originalRequest);
     const userStore = store.getState().user.user;
-    console.log('userStore', userStore);
+    // console.log('userStore', userStore);
 
     let refreshToken = userStore?.refreshToken;
 
@@ -104,9 +71,9 @@ axios.interceptors.response.use(
     }
 
     if (originalRequest?.meta?.error?.showNotification) {
-      let message = error || "Network Error";
-      if (error.includes(404)) {
-        message = error;
+      let message = error.response?.data?.message || "Network Error";
+      if (error.response?.status === 404) {
+        message = error.response?.statusText;
       }
 
       openNotification({
@@ -116,9 +83,13 @@ axios.interceptors.response.use(
       });
     }
 
-    // if (originalRequest?.meta?.enableLoading) {
-    //   store.dispatch(setLoading(false));
-    // }
+    if(error.status === 404){
+      openNotification({
+        type: "error",
+        message: "Error",
+        description: error.message,
+      });
+    }
 
     return Promise.reject(error);
   }

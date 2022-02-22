@@ -42,7 +42,7 @@ export const registerUserApi = async (payload: any): Promise<any> => {
 };
 
 export const getUsersApi = async (payload: any): Promise<any> => {
-  let url = "/api/v1/users?";
+  let url = "/api/v1/users/get-users?";
   for (const [key, value] of Object.entries(payload.query)) {
     url += `&${key}=${value}`;
   }
@@ -86,4 +86,74 @@ export const getUserApi = async (): Promise<any> => {
 
     return responseData;
   } catch (error) {}
+};
+
+// Property
+export const getPropertiesApi = async (payload: any): Promise<any> => {
+  let url = "/api/v1/properties/get-properties?";
+  for (const [key, value] of Object.entries(payload.query)) {
+    url += `&${key}=${value}`;
+  }
+  const { data: responseData } = await axios({
+    url,
+    method: "GET",
+  });
+
+  return responseData;
+};
+
+// Packages
+export const getPackagesApi = async (payload: any): Promise<any> => {
+  let url = "/api/v1/packages/get-packages?";
+  for (const [key, value] of Object.entries(payload.query)) {
+    url += `&${key}=${value}`;
+  }
+  const { data: responseData } = await axios({
+    url,
+    method: "GET",
+  });
+
+  return responseData;
+};
+
+// Subscription
+export const getSubscriptionsApi = async (payload: any): Promise<any> => {
+  let url = "/api/v1/subscriptions/get-subscriptions?";
+  for (const [key, value] of Object.entries(payload.query)) {
+    url += `&${key}=${value}`;
+  }
+  const { data: responseData } = await axios({
+    url,
+    method: "GET",
+  });
+
+  return responseData;
+};
+
+// Transaction
+export const getTransactionsApi = async (payload: any): Promise<any> => {
+  let url = "/api/v1/transactions/get-transaction?";
+  for (const [key, value] of Object.entries(payload.query)) {
+    url += `&${key}=${value}`;
+  }
+  const { data: responseData } = await axios({
+    url,
+    method: "GET",
+  });
+
+  return responseData;
+};
+
+// Property
+export const getCollectorsApi = async (payload: any): Promise<any> => {
+  let url = "/api/v1/properties/get-collectors?";
+  for (const [key, value] of Object.entries(payload.query)) {
+    url += `&${key}=${value}`;
+  }
+  const { data: responseData } = await axios({
+    url,
+    method: "GET",
+  });
+
+  return responseData;
 };

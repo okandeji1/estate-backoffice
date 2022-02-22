@@ -10,7 +10,7 @@ const AppPassword = props => {
   return (
     <PasswordStyled
       type={visible ? "text" : "password"}
-      className="appearance-none border-gray-700  flex w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white h-12"
+      className="appearance-none border-gray-700  flex w-full bg-gray-200 text-gray-700 border rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white h-12"
       {...rest}
       suffix={
         visible ? (

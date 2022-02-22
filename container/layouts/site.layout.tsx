@@ -11,12 +11,12 @@ const SiteLayout = (props: any) => {
 
   return (
     <div className="mainWrapper">
-      <Head>
+      {/* <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="Real estate" />
         <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-      </Head>
+      </Head> */}
       <Header />
       <Content className="bg-tertiary">{children}</Content>
       <Footer />

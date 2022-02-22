@@ -1,10 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
+import React, {useState, useEffect} from "react";
+import {useRouter} from "next/router";
 import { Card, Carousel } from 'antd';
 import SiteLayout from '../container/layouts/site.layout';
 
 const { Meta } = Card;
 
 const Home = () => {
+  const Router = useRouter();
+
+  useEffect(() => {
+    // HACK: assert the page url is pointing to the correct path
+    if (Router.pathname !== "/") {
+      Router.replace("/");
+    }
+  }, []);
 
   return (     
     <> 

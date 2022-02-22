@@ -69,7 +69,7 @@ const AppSearch = (props) => {
       }}
       // @ts-ignore
       columns={fullColumns}
-      dataSource={ra}
+      dataSource={data}
       bordered
       onChange={handleTableChange}
       {...rest}

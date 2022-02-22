@@ -102,7 +102,7 @@ body {
 @layer components {
   .btn {
     line-height: 0px;
-    border-radius: 10px 10px 10px 0px;
+    border-radius: 10px 10px 10px 10px;
     border: none;
   }
 
@@ -145,6 +145,10 @@ body {
     color: #013d79;
   }
 
+  .text-primary {
+    color: #1d2f66;
+  }
+
   /* @variants disabled {
     .btn {
       background-color: currentColor;
@@ -154,19 +158,19 @@ body {
 }
 
 .radius-1 {
-  border-radius: 1rem 1rem 1rem 0px;
+  border-radius: 1rem 1rem 1rem 1rem;
 }
 
 .radius-2 {
-  border-radius: 2rem 2rem 2rem 0px;
+  border-radius: 2rem 2rem 2rem 2rem;
 }
 
 .radius-3 {
-  border-radius: 3rem 3rem 3rem 0px;
+  border-radius: 3rem 3rem 3rem 3rem;
 }
 
 .radius-4 {
-  border-radius: 4rem 4rem 4rem 0px;
+  border-radius: 4rem 4rem 4rem 4rem;
 }
 
 .line-7 {

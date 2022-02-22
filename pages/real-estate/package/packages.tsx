@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Row, Table, Typography } from "antd";
+import { Button, Col, Popover, Row, Table, Tooltip, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
-
+import dayjs from "dayjs";
 import AppSearch from "../../../components/app-search.component";
 import AppTable from "../../../components/app-table.component";
 import ExportExcel from "../../../components/export-excel.component";
 import Wrapper from "../../../container/layouts/dashboard.layout";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import Filter from "../../../components/filter.component";
+import { selectPackages } from "../../../store/slices/package.slice";
+import { EditOutlined, UserDeleteOutlined } from "@ant-design/icons";
 
 const Package = () => {
   const screens = useBreakpoint();
+  const packages = useSelector(selectPackages);
+
 
   const ra = [
     {
@@ -48,7 +52,7 @@ const Package = () => {
     },
 
     {
-      title: "Username",
+      title: "Title",
       render: (text, record) => (
         <Button
           type="ghost"
@@ -62,68 +66,48 @@ const Package = () => {
           //     );
           //   }}
           className="text-blue-500 border-0">
-          {record.username}
+          {record.title}
         </Button>
       ),
-      key: "username",
+      key: "title",
       ellipsis: true,
 
       align: "center",
-      sorter: (a, b) => a.username - b.username,
     },
     {
-      title: "Name",
-      key: "name",
-      render: (text, record) => `${record.firstName} ${record.lastName}`,
-      sorter: (a, b) => a.firstName - b.firstName,
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
       ellipsis: true,
       align: "center",
     },
     {
-      title: "Phone",
-      key: "phone",
-      render: (text, record) =>
-        record?.phone?.code
-          ? `${record?.phone?.code}${record?.phone?.number}`
-          : "-",
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
       ellipsis: true,
       align: "center",
     },
     {
-      title: "Parent",
-      dataIndex: "parent",
-      key: "parent",
-      sorter: (a, b) => a - b,
+      title: "City",
+      dataIndex: "city",
+      key: "city",
+      ellipsis: true,
+      align: "center",
+    },
+    {
+      title: "State",
+      dataIndex: "state",
+      key: "state",
       ellipsis: true,
       align: "center",
     },
     {
       title: "Date Added",
       key: "createdAt",
-      //   render: (text, record) => moment(record.createdAt).format("Do MMM, YYYY"),
+        render: (text, record) => dayjs(record.createdAt).format("MMM D, YYYY h:mm A"),
       ellipsis: true,
       align: "center",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      filters: [
-        {
-          text: "PENDING",
-          value: "PENDING",
-        },
-        {
-          text: "ACTIVE",
-          value: "ACTIVE",
-        },
-        {
-          text: "INACTIVE",
-          value: "INACTIVE",
-        },
-      ],
-      sorter: (a, b) => a - b,
-      onFilter: (value, record) => record.status.indexOf(value) === 0,
     },
     {
       title: "Action",
@@ -133,13 +117,81 @@ const Package = () => {
       fixed: screens.lg ? "right" : null,
       render: (text, record) => {
         return screens.lg ? (
-          <div className="flex justify-evenly">action</div>
+          <div className="flex justify-evenly">
+            <Tooltip title="Delete User">
+              <Button
+                type="primary"
+                shape="round"
+                style={{
+                  background: "#f56565",
+                  borderColor: "#f56565",
+                  lineHeight: "0px",
+                }}
+                icon={<UserDeleteOutlined />}
+                // onClick={() =>}
+                size="small"
+              />
+            </Tooltip>
+            <Tooltip title="Edit User">
+              <Button
+                type="primary"
+                shape="round"
+                style={{
+                  background: "#48bb78",
+                  borderColor: "#48bb78",
+                  lineHeight: "0px",
+                }}
+                icon={<EditOutlined />}
+                size="small"
+              />
+            </Tooltip>
+          </div>
         ) : (
-          <div>small</div>
+          <Popover
+            placement="bottom"
+            content={
+              <span
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "14rem",
+                }}>
+                <Tooltip title="Delete User">
+                  <Button
+                    type="primary"
+                    shape="round"
+                    style={{
+                      background: "#f56565",
+                      borderColor: "#f56565",
+                      lineHeight: "0px",
+                    }}
+                    icon={<UserDeleteOutlined />}
+                    // onClick={() =>}
+                    size="small"
+                  />
+                </Tooltip>
+                <Tooltip title="Edit User">
+                  <Button
+                    type="primary"
+                    shape="round"
+                    style={{
+                      background: "#48bb78",
+                      borderColor: "#48bb78",
+                      lineHeight: "0px",
+                    }}
+                    icon={<EditOutlined />}
+                    size="small"
+                  />
+                </Tooltip>
+              </span>
+            }>
+            <Button className="text-blue-500 border-0">Hover Me</Button>
+          </Popover>
         );
       },
     },
   ];
+
 
   const handleTableChange = () => {}
 
@@ -152,7 +204,27 @@ const Package = () => {
           </Typography.Title>
         </UserStyled>
 
-        <Filter startingRole='admin' />
+        {/* <Filter startingRole='admin' /> */}
+        <div className="flex flex-col justify-between items-center md:flex-row w-full">
+          <AppSearch className="order-2 md:order-1" />
+          <div className="flex w-full order-1 md:order-2 justify-between md:justify-end items-center mb-2">
+          <ExportExcel
+            csvData={{
+              records: packages?.data,
+              fileName: 'Packages',
+              source: "PACKAGES",
+              disabled: packages?.loading === "LOADING",
+            }}
+          />
+          <Button
+            className="btn-secondary ml-3"
+            // onClick={() => showAuth("REGISTER")}
+            >
+
+            Add New Packages
+          </Button>
+          </div>
+        </div>
         <div style={{overflowX: "auto"}}>
           <AppTable
             columns={fullColumns}

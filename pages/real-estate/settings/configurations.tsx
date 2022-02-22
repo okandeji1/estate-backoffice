@@ -152,7 +152,16 @@ const Configuration = () => {
           </Typography.Title>
         </UserStyled>
 
-        <Filter startingRole='admin' />
+        {/* <Filter startingRole='admin' /> */}
+          <div className="flex w-full order-1 md:order-2 justify-between md:justify-end items-center mb-2">
+          <Button
+            className="btn-secondary ml-3"
+            // onClick={() => showAuth("REGISTER")}
+            >
+
+            Add New Settings
+          </Button>
+        </div>
         <div style={{overflowX: "auto"}}>
           <AppTable
             columns={fullColumns}

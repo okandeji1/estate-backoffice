@@ -152,7 +152,27 @@ const Collector = () => {
           </Typography.Title>
         </UserStyled>
 
-        <Filter startingRole='admin' />
+        {/* <Filter startingRole='admin' /> */}
+        <div className="flex flex-col justify-between items-center md:flex-row w-full">
+          <AppSearch className="order-2 md:order-1" />
+          <div className="flex w-full order-1 md:order-2 justify-between md:justify-end items-center mb-2">
+          <ExportExcel
+            csvData={{
+              records: ra,
+              fileName: 'Collectors',
+              source: "COLLECTORS",
+              // disabled: collectors?.loading === "LOADING",
+            }}
+          />
+          <Button
+            className="btn-secondary ml-3"
+            // onClick={() => showAuth("REGISTER")}
+            >
+
+            Add New Collectors
+          </Button>
+          </div>
+        </div>
         <div style={{overflowX: "auto"}}>
           <AppTable
             columns={fullColumns}
