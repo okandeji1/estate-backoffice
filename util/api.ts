@@ -98,7 +98,7 @@ export const getPropertiesApi = async (payload: any): Promise<any> => {
     url,
     method: "GET",
   });
-
+  console.log(responseData)
   return responseData;
 };
 

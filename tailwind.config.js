@@ -35,6 +35,9 @@ module.exports = {
         "2xs": "0.625rem",
       },
       variants: {},
+      screens: {
+        mf: "990px",
+      },
       keyframes: {
         "slide-in": {
           "0%": {

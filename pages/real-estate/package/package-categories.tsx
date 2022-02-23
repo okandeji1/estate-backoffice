@@ -3,28 +3,31 @@ import dayjs from "dayjs";
 import { Button, Col, Popover, Row, Table, Tooltip, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
+import dynamic from "next/dynamic";
 import {
-  setShowAddProperty,
+  setShowAddPackageCategory,
 } from "../../../store/slices/app-settings.slice";
 import AppSearch from "../../../components/app-search.component";
 import AppTable from "../../../components/app-table.component";
 import ExportExcel from "../../../components/export-excel.component";
 import Wrapper from "../../../container/layouts/dashboard.layout";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
-import dynamic from "next/dynamic";
 import Filter from "../../../components/filter.component";
 import { selectProperties, getProperties } from "../../../store/slices/property.slice";
 import { capitalize } from "../../../util/utils";
 import { EditOutlined, UserDeleteOutlined } from "@ant-design/icons";
+import axios from "axios";
+import { openNotification } from "../../../components/notify";
 
-const AddProperty = dynamic(
-  () => import("../../../components/add-property.component")
+const AddPackageCategory = dynamic(
+  () => import("../../../components/add-package-category.component")
 );
 
-const Property = () => {
+const PackageCategory = () => {
   const screens = useBreakpoint();
   const dispatch = useDispatch();
-  const properties = useSelector(selectProperties);
+
+  const [categories, setCategory] = useState<any>([]);
   
   const fullColumns = [
     {
@@ -37,7 +40,7 @@ const Property = () => {
     },
 
     {
-      title: "Title",
+      title: "package Category",
       render: (text, record) => (
         <Button
           type="ghost"
@@ -51,40 +54,12 @@ const Property = () => {
           //     );
           //   }}
           className="text-blue-500 border-0">
-          {record.title}
+          {record.package_category}
         </Button>
       ),
-      key: "title",
+      key: "package_category",
       ellipsis: true,
 
-      align: "center",
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      ellipsis: true,
-      align: "center",
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-      ellipsis: true,
-      align: "center",
-    },
-    {
-      title: "City",
-      dataIndex: "city",
-      key: "city",
-      ellipsis: true,
-      align: "center",
-    },
-    {
-      title: "State",
-      dataIndex: "state",
-      key: "state",
-      ellipsis: true,
       align: "center",
     },
     {
@@ -177,23 +152,46 @@ const Property = () => {
     },
   ];
 
-  
-
   const handleTableChange = () => {}
 
-  console.log(properties);
+  const getCategories = async () => {
+    try {
+      const { data: responseData } = await axios({
+        url: `/api/v1/packages/get-package-categories`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      });
+      if (responseData.success) {
+        setCategory(responseData.data);
+      } else {
+        openNotification({
+          type: "error",
+          message: "Error",
+          description: `update failed! \n ${responseData.message}`,
+        });
+      }
+    } catch (error) {
+      openNotification({
+        type: "error",
+        message: "Error",
+        description: `Internal server error`,
+      });
+    }
+  };
+
   useEffect(() => {
-    dispatch(getProperties({ query: {  } }));
+    getCategories();
   }, []);
 
   return (
     <div>
-      <div>{properties}</div>
-      <AddProperty role='agent' callback={getProperties} />
+      <AddPackageCategory />
       <PageStyled>
         <UserStyled>
           <Typography.Title level={4} className="title">
-            Property List
+            package Category List
           </Typography.Title>
         </UserStyled>
 
@@ -203,27 +201,27 @@ const Property = () => {
           <div className="flex w-full order-1 md:order-2 justify-between md:justify-end items-center mb-2">
           <ExportExcel
             csvData={{
-              records: properties?.data,
-              fileName: 'Properties',
-              source: "PROPERTIES",
-              disabled: properties?.loading === "LOADING",
+              records: categories,
+              fileName: 'package_Categories',
+              source: "package_CATEGORIES",
+            //   disabled: categories?.loading === "LOADING",
             }}
           />
           <Button
             className="btn-secondary ml-3"
-            onClick={() => dispatch(setShowAddProperty(true))}
+            onClick={() => dispatch(setShowAddPackageCategory(true))}
             >
 
-            {'Add New Properties'}
+            {'Add New package Categories'}
           </Button>
           </div>
         </div>
         <div style={{overflowX: "auto"}}>
           <AppTable
             columns={fullColumns}
-            data={properties?.data}
+            data={categories}
             page='10'
-            title={() => "Property List"}
+            title={() => "package List"}
             onChange={handleTableChange}
           />
         </div>
@@ -257,6 +255,6 @@ const PageStyled = styled.div`
   }
 `;
 
-Property.Layout = Wrapper;
+PackageCategory.Layout = Wrapper;
 
-export default Property;
+export default PackageCategory;

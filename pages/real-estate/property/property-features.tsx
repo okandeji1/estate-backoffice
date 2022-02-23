@@ -3,23 +3,17 @@ import dayjs from "dayjs";
 import { Button, Col, Popover, Row, Table, Tooltip, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
-import {
-  setShowAddProperty,
-} from "../../../store/slices/app-settings.slice";
+
 import AppSearch from "../../../components/app-search.component";
 import AppTable from "../../../components/app-table.component";
 import ExportExcel from "../../../components/export-excel.component";
 import Wrapper from "../../../container/layouts/dashboard.layout";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
-import dynamic from "next/dynamic";
 import Filter from "../../../components/filter.component";
 import { selectProperties, getProperties } from "../../../store/slices/property.slice";
 import { capitalize } from "../../../util/utils";
 import { EditOutlined, UserDeleteOutlined } from "@ant-design/icons";
 
-const AddProperty = dynamic(
-  () => import("../../../components/add-property.component")
-);
 
 const Property = () => {
   const screens = useBreakpoint();
@@ -177,23 +171,18 @@ const Property = () => {
     },
   ];
 
-  
-
   const handleTableChange = () => {}
 
-  console.log(properties);
   useEffect(() => {
     dispatch(getProperties({ query: {  } }));
   }, []);
 
   return (
     <div>
-      <div>{properties}</div>
-      <AddProperty role='agent' callback={getProperties} />
       <PageStyled>
         <UserStyled>
           <Typography.Title level={4} className="title">
-            Property List
+            Property Feature List
           </Typography.Title>
         </UserStyled>
 
@@ -211,10 +200,10 @@ const Property = () => {
           />
           <Button
             className="btn-secondary ml-3"
-            onClick={() => dispatch(setShowAddProperty(true))}
+            // onClick={() => showAuth("REGISTER")}
             >
 
-            {'Add New Properties'}
+            {'Add New Feature'}
           </Button>
           </div>
         </div>
@@ -223,7 +212,7 @@ const Property = () => {
             columns={fullColumns}
             data={properties?.data}
             page='10'
-            title={() => "Property List"}
+            title={() => "Property Feature List"}
             onChange={handleTableChange}
           />
         </div>

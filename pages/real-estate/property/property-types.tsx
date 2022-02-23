@@ -3,28 +3,31 @@ import dayjs from "dayjs";
 import { Button, Col, Popover, Row, Table, Tooltip, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
+import dynamic from "next/dynamic";
 import {
-  setShowAddProperty,
+  setShowAddPropertyType,
 } from "../../../store/slices/app-settings.slice";
 import AppSearch from "../../../components/app-search.component";
 import AppTable from "../../../components/app-table.component";
 import ExportExcel from "../../../components/export-excel.component";
 import Wrapper from "../../../container/layouts/dashboard.layout";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
-import dynamic from "next/dynamic";
 import Filter from "../../../components/filter.component";
 import { selectProperties, getProperties } from "../../../store/slices/property.slice";
 import { capitalize } from "../../../util/utils";
 import { EditOutlined, UserDeleteOutlined } from "@ant-design/icons";
+import axios from "axios";
+import { openNotification } from "../../../components/notify";
 
-const AddProperty = dynamic(
-  () => import("../../../components/add-property.component")
+const AddPropertyType = dynamic(
+  () => import("../../../components/add-property-type.component")
 );
 
-const Property = () => {
+const PropertyType = () => {
   const screens = useBreakpoint();
   const dispatch = useDispatch();
-  const properties = useSelector(selectProperties);
+
+  const [propertyTypes, setPropertyTypes] = useState<any>([]);
   
   const fullColumns = [
     {
@@ -37,7 +40,7 @@ const Property = () => {
     },
 
     {
-      title: "Title",
+      title: "Property Type",
       render: (text, record) => (
         <Button
           type="ghost"
@@ -51,40 +54,12 @@ const Property = () => {
           //     );
           //   }}
           className="text-blue-500 border-0">
-          {record.title}
+          {record.property_type}
         </Button>
       ),
-      key: "title",
+      key: "property_type",
       ellipsis: true,
 
-      align: "center",
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      ellipsis: true,
-      align: "center",
-    },
-    {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
-      ellipsis: true,
-      align: "center",
-    },
-    {
-      title: "City",
-      dataIndex: "city",
-      key: "city",
-      ellipsis: true,
-      align: "center",
-    },
-    {
-      title: "State",
-      dataIndex: "state",
-      key: "state",
-      ellipsis: true,
       align: "center",
     },
     {
@@ -177,23 +152,46 @@ const Property = () => {
     },
   ];
 
-  
-
   const handleTableChange = () => {}
 
-  console.log(properties);
+  const getTypes = async () => {
+    try {
+      const { data: responseData } = await axios({
+        url: `/api/v1/properties/get-property-types`,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "GET",
+      });
+      if (responseData.success) {
+        setPropertyTypes(responseData.data);
+      } else {
+        openNotification({
+          type: "error",
+          message: "Error",
+          description: `update failed! \n ${responseData.message}`,
+        });
+      }
+    } catch (error) {
+      openNotification({
+        type: "error",
+        message: "Error",
+        description: `Internal server error`,
+      });
+    }
+  };
+
   useEffect(() => {
-    dispatch(getProperties({ query: {  } }));
+    getTypes();
   }, []);
 
   return (
     <div>
-      <div>{properties}</div>
-      <AddProperty role='agent' callback={getProperties} />
+      <AddPropertyType />
       <PageStyled>
         <UserStyled>
           <Typography.Title level={4} className="title">
-            Property List
+            Property Type List
           </Typography.Title>
         </UserStyled>
 
@@ -203,27 +201,27 @@ const Property = () => {
           <div className="flex w-full order-1 md:order-2 justify-between md:justify-end items-center mb-2">
           <ExportExcel
             csvData={{
-              records: properties?.data,
-              fileName: 'Properties',
-              source: "PROPERTIES",
-              disabled: properties?.loading === "LOADING",
+              records: propertyTypes,
+              fileName: 'Property_Types',
+              source: "PROPERTY_TYPES",
+            //   disabled: categories?.loading === "LOADING",
             }}
           />
           <Button
             className="btn-secondary ml-3"
-            onClick={() => dispatch(setShowAddProperty(true))}
+            onClick={() => dispatch(setShowAddPropertyType(true))}
             >
 
-            {'Add New Properties'}
+            {'Add New Property Types'}
           </Button>
           </div>
         </div>
         <div style={{overflowX: "auto"}}>
           <AppTable
             columns={fullColumns}
-            data={properties?.data}
+            data={propertyTypes}
             page='10'
-            title={() => "Property List"}
+            title={() => "Property Type List"}
             onChange={handleTableChange}
           />
         </div>
@@ -257,6 +255,6 @@ const PageStyled = styled.div`
   }
 `;
 
-Property.Layout = Wrapper;
+PropertyType.Layout = Wrapper;
 
-export default Property;
+export default PropertyType;
