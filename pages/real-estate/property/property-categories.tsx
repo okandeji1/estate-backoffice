@@ -15,7 +15,7 @@ import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import Filter from "../../../components/filter.component";
 import { selectProperties, getProperties } from "../../../store/slices/property.slice";
 import { capitalize } from "../../../util/utils";
-import { EditOutlined, UserDeleteOutlined } from "@ant-design/icons";
+import { DeleteRowOutlined, EditOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { openNotification } from "../../../components/notify";
 
@@ -87,7 +87,7 @@ const PropertyCategory = () => {
                   borderColor: "#f56565",
                   lineHeight: "0px",
                 }}
-                icon={<UserDeleteOutlined />}
+                icon={<DeleteRowOutlined />}
                 // onClick={() =>}
                 size="small"
               />
@@ -125,7 +125,7 @@ const PropertyCategory = () => {
                       borderColor: "#f56565",
                       lineHeight: "0px",
                     }}
-                    icon={<UserDeleteOutlined />}
+                    icon={<DeleteRowOutlined />}
                     // onClick={() =>}
                     size="small"
                   />

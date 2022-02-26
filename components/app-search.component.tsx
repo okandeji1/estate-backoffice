@@ -10,6 +10,32 @@ const AppSearch = (props) => {
 };
 
 const InputStyled = styled(Search)`
-  border-radius: 10px 10px 10px 0px;
+  .ant-input-group .ant-input {
+    float: left;
+    width: 100%;
+    margin-bottom: 0;
+    text-align: inherit;
+    border-radius: 1rem 0rem 0rem 1rem;
+    height: 3.5rem;
+    --tw-bg-opacity: 1;
+    background-color: var(--tw-bg-opacity))
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .ant-input-search-button {
+    height: 3.5rem;
+    background: ${(props: any) => props.theme.colors.secondary};
+  }
+
+  .ant-input-search-button:hover { 
+    background: ${(props: any) => props.theme.colors.primary};
+  }
+  
+  .anticon svg {
+    display: inline-block;
+    color: white;
+    font-size: x-large;
+  }
 `;
 export default AppSearch;

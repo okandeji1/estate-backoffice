@@ -10,7 +10,7 @@ import Wrapper from "../../../container/layouts/dashboard.layout";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import Filter from "../../../components/filter.component";
 import { selectPackages } from "../../../store/slices/package.slice";
-import { EditOutlined, UserDeleteOutlined } from "@ant-design/icons";
+import { DeleteRowOutlined, EditOutlined, UserDeleteOutlined } from "@ant-design/icons";
 
 const Package = () => {
   const screens = useBreakpoint();
@@ -127,7 +127,7 @@ const Package = () => {
                   borderColor: "#f56565",
                   lineHeight: "0px",
                 }}
-                icon={<UserDeleteOutlined />}
+                icon={<DeleteRowOutlined />}
                 // onClick={() =>}
                 size="small"
               />
@@ -165,7 +165,7 @@ const Package = () => {
                       borderColor: "#f56565",
                       lineHeight: "0px",
                     }}
-                    icon={<UserDeleteOutlined />}
+                    icon={<DeleteRowOutlined />}
                     // onClick={() =>}
                     size="small"
                   />
