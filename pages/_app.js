@@ -12,114 +12,88 @@ import "../styles/index.css";
 import SEO from "../next-seo.config";
 import store from "../store/store";
 import theme from "../theme/theme";
-// import { setToken, setWallet } from "../store/slices/user.slice";
-// import {setLoading} from "../store/slices/loading.slice";
-// import { openNotification } from "../components/notify";
+import { openNotification } from "../components/notify";
 
-// axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
-// axios.defaults.headers.common["Content-Type"] = "application/json";
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+axios.defaults.headers.common["Content-Type"] = "application/json";
 // axios.defaults.headers.common["x-api-key"] = process.env.NEXT_PUBLIC_API_KEY;
 
-// axios.interceptors.request.use(
-//   (config) => {
-//     let accessToken = store.getState().user.user?.data?.accessToken;
+axios.interceptors.request.use(
+  (config) => {
+    let accessToken = store.getState().user.user.data?.accessToken;
 
-//     if (accessToken) {
-//       config.headers["Authorization"] = `Bearer ${accessToken}`;
-//     }
-//     // if (config.meta?.enableLoading) {
-//     //   store.dispatch(setLoading(true));
-//     // }
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-//     return config;
-//   },
-//   (error) => {
-//     // if (error?.meta?.enableLoading) {
-//     //   store.dispatch(setLoading(false));
-//     // }
+axios.interceptors.response.use(
+  (response) => {
+    if (response.config.meta?.success?.showNotification) {
+      openNotification({
+        type: "success",
+        message: "Success",
+        description: response.data.message,
+      });
+    }
 
-//     return Promise.reject(error);
-//   }
-// );
+    return response;
+  },
+  async function (error) {
+    // console.log(error.toJSON())
+    const originalRequest = error.config || error.response?.config;
+    // console.log('originalRequest', originalRequest);
+    const userStore = store.getState().user.user;
+    // console.log('userStore', userStore);
 
-// axios.interceptors.response.use(
-//   (response) => {
-//     if (response.config.meta?.success?.showNotification) {
-//       openNotification({
-//         type: "success",
-//         message: "Success",
-//         description: response.data.message,
-//       });
-//     }
-//     if (response.config.meta?.refresh) {
-//       axios({
-//         url: `/api/v1/users/me`,
-//         method: "get",
-//       }).then((res) => {
-//         return store.dispatch(setWallet(res.data.data.wallet));
-//       });
-//     }
+    let refreshToken = userStore?.refreshToken;
 
-//     // if (response.config.meta?.enableLoading) {
-//     //   store.dispatch(setLoading(false));
-//     // }
+    if (
+      refreshToken &&
+      error.response?.status === 401 &&
+      error.response?.data.data.includes("TokenExpiredError") &&
+      !originalRequest?._retry
+    ) {
+      originalRequest._retry = true;
+      const res = await axios({
+        url: `/api/v1/users/refresh-token?refreshToken=${refreshToken}`,
+        method: "get",
+      });
 
-//     // FIXME: to be removed later, Already replaced with callbacks
-//     if (response.config.meta?.callback) {
-//       response.config.meta.callback();
-//     }
+      store.dispatch(setToken(res.data.data.accessToken));
 
-//     // if (response.config.meta?.callbacks?.length > 0) {
-//     //   for (const item of response.config.meta.callbacks) {
-//     //     item.callback();
-//     //   }
-//     // }
+      return axios(originalRequest);
+    }
 
-//     return response;
-//   },
-//   async function (error) {
-//     const originalRequest = error.config || error.response?.config;
-//     const userStore = store.getState().user.user;
+    if (originalRequest?.meta?.error?.showNotification) {
+      let message = error.response?.data?.message || "Network Error";
+      if (error.response?.status === 404) {
+        message = error.response?.statusText;
+      }
 
-//     let refreshToken = userStore?.refreshToken;
+      openNotification({
+        type: "error",
+        message: "Error",
+        description: message,
+      });
+    }
 
-//     if (
-//       refreshToken &&
-//       error.response?.status === 401 &&
-//       error.response?.data.data.includes("TokenExpiredError") &&
-//       !originalRequest?._retry
-//     ) {
-//       originalRequest._retry = true;
-//       const res = await axios({
-//         url: `/api/v1/users/refresh-token?refreshToken=${refreshToken}`,
-//         method: "get",
-//       });
+    if(error.status === 404){
+      openNotification({
+        type: "error",
+        message: "Error",
+        description: error.message,
+      });
+    }
 
-//       store.dispatch(setToken(res.data.data.accessToken));
-
-//       return axios(originalRequest);
-//     }
-
-//     if (originalRequest?.meta?.error?.showNotification) {
-//       let message = error.response?.data?.message || "Network Error";
-//       if (error.response?.status === 404) {
-//         message = error.response?.statusText;
-//       }
-
-//       openNotification({
-//         type: "error",
-//         message: "Error",
-//         description: message,
-//       });
-//     }
-
-//     // if (originalRequest?.meta?.enableLoading) {
-//     //   store.dispatch(setLoading(false));
-//     // }
-
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+);
 
 class MyApp extends App {
   render() {

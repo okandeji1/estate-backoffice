@@ -1,11 +1,11 @@
 :root {
-  --color-primary: #0070C0;
-  --color-secondary: #ffc107;
-  --color-tertiary: #e7e7e7;
+  --color-primary: #2fc6e4;
+  --color-secondary: #dd4f46;
+  --color-tertiary: #a8238a;
   --color-success: #48bb78;
   --color-error: #f56565;
   --color-transparent: transparent;
-  --color-light-primary: #013d79a1;
+  --color-light-primary: #1d2f66;
 }
 
 *,
@@ -77,14 +77,14 @@ body {
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
-  background: #0070C0;
+  background: #3d2d6e;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0070C0;
+  background: #3d2d6e;
 }
 
 @tailwind base;
@@ -102,13 +102,13 @@ body {
 @layer components {
   .btn {
     line-height: 0px;
-    border-radius: 10px 10px 10px 0px;
+    border-radius: 10px 10px 10px 10px;
     border: none;
   }
 
   .btn-primary {
     @apply btn;
-    background-color: #0070C0;
+    background-color: #2fc6e4;
     color: #fff;
   }
   /* 
@@ -119,7 +119,7 @@ body {
 
   .btn-secondary {
     @apply btn;
-    background-color: #ffc107;
+    background-color: #dd4f46;
     color: #013d79;
   }
 
@@ -141,8 +141,12 @@ body {
 
   .btn-tertiary {
     @apply btn;
-    background-color: #e7e7e7;
+    background-color: #3d2d6e;
     color: #013d79;
+  }
+
+  .text-primary {
+    color: #1d2f66;
   }
 
   /* @variants disabled {
@@ -154,23 +158,41 @@ body {
 }
 
 .radius-1 {
-  border-radius: 1rem 1rem 1rem 0px;
+  border-radius: 1rem 1rem 1rem 1rem;
 }
 
 .radius-2 {
-  border-radius: 2rem 2rem 2rem 0px;
+  border-radius: 2rem 2rem 2rem 2rem;
 }
 
 .radius-3 {
-  border-radius: 3rem 3rem 3rem 0px;
+  border-radius: 3rem 3rem 3rem 3rem;
 }
 
 .radius-4 {
-  border-radius: 4rem 4rem 4rem 0px;
+  border-radius: 4rem 4rem 4rem 4rem;
 }
 
 .line-7 {
   line-height: 7rem;
+}
+
+.blue-glassmorphism {
+  background: rgb(39, 51, 89, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+/* white glassmorphism */
+.white-glassmorphism {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Start purging... */

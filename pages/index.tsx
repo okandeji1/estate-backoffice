@@ -1,72 +1,93 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+/* eslint-disable @next/next/no-img-element */
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { Button, Card, Carousel, Divider } from "antd";
+import MiniHeader from "../components/mini-header.component";
+import AppButton from "../components/app-button.component";
+import DefaultLayout from "../container/layouts/default.layout";
+import styled from "@emotion/styled";
 
-const Home: NextPage = () => {
+const { Meta } = Card;
+
+const Home = () => {
+  const Router = useRouter();
+
+  useEffect(() => {
+    // HACK: assert the page url is pointing to the correct path
+    if (Router.pathname !== "/") {
+      Router.replace("/");
+    }
+  }, []);
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Septem Connect</title>
-        <meta name="description" content="Septem Connect" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <>
+      <div className="border-none">
+        <MiniHeader />
+        <Card className="flex flex-col justify-between items-center w-full h-full border-none bg-gray-400">
+          <h3 className="flex justify-center items-center w-full text-2xl font-light text-black py-4">
+            Ready for change? Let us help you.
+          </h3>
+          <div className="flex flex-col md:flex-row items-center">
+            <CardStyled className="flex flex-col justify-center items-center md:w-96 h-80">
+              <div className="min-h-1/4 flex items-center justify-center">
+                <img src="/images/buy.png" alt="" />
+              </div>
+              <div className="flex flex-col pt-4 text-center">
+                <h2 className="text-xl font-semibold text-black">Buy</h2>
+                <p className="max-w-2xl font-light mb-4 text-base">
+                  With thousands of properties for sale on our site, we can help
+                  you find your space.
+                </p>
+                <div className="flex justify-center mb-8">
+                  <AppButton>Start your search</AppButton>
+                </div>
+              </div>
+            </CardStyled>
+            <CardStyled className="flex flex-col justify-center items-center md:w-96 h-80">
+              <div className="min-h-1/4 flex items-center justify-center">
+                <img src="/images/rent.png" alt="" />
+              </div>
+              <div className="flex flex-col pt-4 text-center">
+                <h2 className="text-xl font-semibold text-black">Rent</h2>
+                <p className="max-w-2xl font-light mb-4 text-base">
+                  Find a rental space that you’ll love or advertise your rental
+                  property on our site.
+                </p>
+                <div className="flex justify-center">
+                <div className="flex flex-col md:flex-row mb-8">
+                  <AppButton>Find rentals</AppButton>
+                  <AppButton>List rentals</AppButton>
+                </div>
+                </div>
+              </div>
+            </CardStyled>
+            <CardStyled className="flex flex-col justify-center items-center md:w-96 h-80">
+              <div className="min-h-1/4 flex items-center justify-center">
+                <img src="/images/sell.png" alt="" />
+              </div>
+              <div className="flex flex-col pt-4 text-center">
+                <h2 className="text-xl font-semibold text-black">Sell</h2>
+                <p className="max-w-2xl font-light mb-4 text-base">
+                  Advertise with us and have your property seen by millions of
+                  people.
+                </p>
+                <div className="flex justify-center mb-8">
+                  <AppButton>Sell your property</AppButton>
+                </div>
+              </div>
+            </CardStyled>
+          </div>
+        </Card>
+      </div>
+    </>
+  );
+};
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+const CardStyled = styled(Card)`
+  height: 25rem;
+  width: 100%;
+  /* border-style: none; */
+`;
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
-    </div>
-  )
-}
-
-export default Home
+Home.Layout = DefaultLayout;
+export default Home;
