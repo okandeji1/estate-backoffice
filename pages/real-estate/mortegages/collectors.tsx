@@ -1,0 +1,217 @@
+import React, { useEffect, useState } from "react";
+import { Button, Col, Row, Table, Typography } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "@emotion/styled";
+
+import AppSearch from "../../../components/app-search.component";
+import AppTable from "../../../components/app-table.component";
+import ExportExcel from "../../../components/export-excel.component";
+import Wrapper from "../../../container/layouts/dashboard.layout";
+import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
+import Filter from "../../../components/filter.component";
+
+const Collector = () => {
+  const screens = useBreakpoint();
+
+  const ra = [
+    {
+      firstName: "firstName",
+      lastName: "lastName",
+      username: "username",
+      email: "email",
+      user: "firstName",
+    },
+    {
+      firstName: "firstName",
+      lastName: "lastName",
+      username: "username",
+      email: "email",
+      user: "firstName",
+    },
+    {
+      firstName: "firstName",
+      lastName: "lastName",
+      username: "username",
+      email: "email",
+      user: "firstName",
+    },
+  ];
+
+  const fullColumns = [
+    {
+      title: "#",
+      key: "index",
+      render: (text, record, index) => index + 1,
+      sorter: (a, b) => a - b,
+      width: "3rem",
+      align: "center",
+    },
+
+    {
+      title: "Username",
+      render: (text, record) => (
+        <Button
+          type="ghost"
+          //   onClick={() => {
+          //     dispatch(
+          //       setShowProfileOne({
+          //         role: record.role,
+          //         show: true,
+          //         user: record,
+          //       })
+          //     );
+          //   }}
+          className="text-blue-500 border-0">
+          {record.username}
+        </Button>
+      ),
+      key: "username",
+      ellipsis: true,
+
+      align: "center",
+      sorter: (a, b) => a.username - b.username,
+    },
+    {
+      title: "Name",
+      key: "name",
+      render: (text, record) => `${record.firstName} ${record.lastName}`,
+      sorter: (a, b) => a.firstName - b.firstName,
+      ellipsis: true,
+      align: "center",
+    },
+    {
+      title: "Phone",
+      key: "phone",
+      render: (text, record) =>
+        record?.phone?.code
+          ? `${record?.phone?.code}${record?.phone?.number}`
+          : "-",
+      ellipsis: true,
+      align: "center",
+    },
+    {
+      title: "Parent",
+      dataIndex: "parent",
+      key: "parent",
+      sorter: (a, b) => a - b,
+      ellipsis: true,
+      align: "center",
+    },
+    {
+      title: "Date Added",
+      key: "createdAt",
+      //   render: (text, record) => moment(record.createdAt).format("Do MMM, YYYY"),
+      ellipsis: true,
+      align: "center",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      filters: [
+        {
+          text: "PENDING",
+          value: "PENDING",
+        },
+        {
+          text: "ACTIVE",
+          value: "ACTIVE",
+        },
+        {
+          text: "INACTIVE",
+          value: "INACTIVE",
+        },
+      ],
+      sorter: (a, b) => a - b,
+      onFilter: (value, record) => record.status.indexOf(value) === 0,
+    },
+    {
+      title: "Action",
+      key: "action",
+      align: "center",
+      width: screens.lg ? "18rem" : "auto",
+      fixed: screens.lg ? "right" : null,
+      render: (text, record) => {
+        return screens.lg ? (
+          <div className="flex justify-evenly">action</div>
+        ) : (
+          <div>small</div>
+        );
+      },
+    },
+  ];
+
+  const handleTableChange = () => {}
+
+  return (
+    <div>
+      <PageStyled>
+        <UserStyled>
+          <Typography.Title level={4} className="title">
+            Collectors List
+          </Typography.Title>
+        </UserStyled>
+
+        {/* <Filter startingRole='admin' /> */}
+        <div className="flex flex-col justify-between items-center md:flex-row w-full">
+          <AppSearch className="order-2 md:order-1" />
+          <div className="flex w-full order-1 md:order-2 justify-between md:justify-end items-center mb-2">
+          <ExportExcel
+            csvData={{
+              records: ra,
+              fileName: 'Collectors',
+              source: "COLLECTORS",
+              // disabled: collectors?.loading === "LOADING",
+            }}
+          />
+          <Button
+            className="btn-secondary ml-3"
+            // onClick={() => showAuth("REGISTER")}
+            >
+
+            Add New Collectors
+          </Button>
+          </div>
+        </div>
+        <div style={{overflowX: "auto"}}>
+          <AppTable
+            columns={fullColumns}
+            data={ra}
+            page='10'
+            title={() => "Collector List"}
+            onChange={handleTableChange}
+          />
+        </div>
+      </PageStyled>
+    </div>
+  );
+};
+
+const UserStyled = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  .search {
+    border-radius: 1rem 1rem 1rem 0rem;
+    border-width: 1px;
+    border: 1px solid #410f8a;
+  }
+  .title {
+    text-align: left;
+    font-weight: 400;
+    /* font-size: 1.2rem; */
+    color: #3e3f42;
+  }
+`;
+
+const PageStyled = styled.div`
+  .table-one {
+    border-radius: 1rem 1rem 1rem 0rem;
+    border-width: 1px;
+    min-width: 1300;
+  }
+`;
+
+Collector.Layout = Wrapper;
+
+export default Collector;

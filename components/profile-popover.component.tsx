@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Row, Col, Typography, Button, Popover } from "antd";
 import styled from "@emotion/styled";
@@ -6,6 +6,8 @@ import { IOption } from "../types/types";
 
 export default function ProfilePover({ children, user, logout }: IOption) {
   const router = useRouter();
+  useEffect(() =>{
+  })
   return (
     <Popover
       placement="bottomRight"
@@ -13,16 +15,17 @@ export default function ProfilePover({ children, user, logout }: IOption) {
       content={
         <PopoverStyled>
           <div className="item">
-            <Typography.Text>USERNAME:</Typography.Text>
-            <Typography.Text>{user?.username.toUpperCase()}</Typography.Text>
+            <Typography.Text>FIRST NAME:</Typography.Text>
+            
+            <Typography.Text>{user?.firstName}</Typography.Text>
           </div>
           <div className="item">
-            <Typography.Text>USER ID:</Typography.Text>
-            <Typography.Text>{user?.userId.toLowerCase()}</Typography.Text>
+            <Typography.Text>LAST NAME:</Typography.Text>
+            <Typography.Text>{user?.firstName}</Typography.Text>
           </div>
           <div className="item">
             <Typography.Text>ROLE:</Typography.Text>
-            <Typography.Text>{user?.role.toLowerCase()}</Typography.Text>
+            <Typography.Text>{user?.role?.toUpperCase()}</Typography.Text>
           </div>
           <Button className="btn" onClick={logout}>
             Logout

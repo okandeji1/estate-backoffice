@@ -9,23 +9,14 @@ breakpoints.xxl = breakpoints[5];
 
 export default {
   colors: {
-    primary: "#0070C0",
-    secondary: "#ffc107",
-    tertiary: "	#e7e7e7",
+    primary: "#2fc6e4",
+    secondary: "#dd4f46",
+    tertiary: "	#a8238a",
     success: "#48bb78",
     danger: "#f56565",
     transparent: "transparent",
-    lightPrimary: "#013d79a1",
+    lightPrimary: "#1d2f66",
   },
-
-  // variants: {
-  //     container: {
-  //         mx: 'auto',
-  //         maxWidth: 1200,
-  //         width: '100%',
-  //         px: 30
-  //     }
-  // },
 
   breakpoints,
 };
