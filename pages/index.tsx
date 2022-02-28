@@ -54,10 +54,10 @@ const Home = () => {
                   property on our site.
                 </p>
                 <div className="flex justify-center">
-                <div className="flex flex-col md:flex-row mb-8">
-                  <AppButton>Find rentals</AppButton>
-                  <AppButton>List rentals</AppButton>
-                </div>
+                  <div className="flex flex-col md:flex-row mb-8">
+                    <AppButton>Find rentals</AppButton>
+                    <AppButton>List rentals</AppButton>
+                  </div>
                 </div>
               </div>
             </CardStyled>
@@ -78,6 +78,38 @@ const Home = () => {
             </CardStyled>
           </div>
         </Card>
+        <section>
+          <h1>Featured Property</h1>
+          <ImgContainerStyled>
+            <Carousel autoplay effect="scrollx">
+              <ImgStyled
+                src="/images/1680.jpg"
+                alt="property"
+                className="radius-1"
+              />
+              <ImgStyled
+                src="/images/bg.jpg"
+                alt="property"
+                className="radius-1"
+              />
+              <ImgStyled
+                src="/images/1680.jpg"
+                alt="property"
+                className="radius-1"
+              />
+              <ImgStyled
+                src="/images/1680.jpg"
+                alt="property"
+                className="radius-1"
+              />
+              <ImgStyled
+                src="/images/1680.jpg"
+                alt="property"
+                className="radius-1"
+              />
+            </Carousel>
+          </ImgContainerStyled>/
+        </section>
       </div>
     </>
   );
@@ -87,6 +119,28 @@ const CardStyled = styled(Card)`
   height: 25rem;
   width: 100%;
   /* border-style: none; */
+`;
+
+const ImgContainerStyled = styled.div`
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  padding: 2rem;
+`;
+
+const CarouselStyled = styled.div`
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  padding: 2rem;
+`;
+
+const ImgStyled = styled.img`
+  height: 25rem;
+  @media only screen and (min-width: 600px) {
+    height: 20rem;
+    width: 20rem !important;
+  }
 `;
 
 Home.Layout = DefaultLayout;
