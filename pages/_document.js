@@ -6,26 +6,6 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link
-            href="/css/style1.bundle.css"
-            type="text/css"
-            rel="stylesheet"
-          />
-          <link
-            href="/css/style2.bundle.css"
-            type="text/css"
-            rel="stylesheet"
-          />
-          {/* <link
-            href="/css/style3.bundle.css"
-            type="text/css"
-            rel="stylesheet"
-          /> */}
-          <link
-            href="/css/style4.bundle.css"
-            type="text/css"
-            rel="stylesheet"
-          />
         </Head>
         <body>
           <Main />

@@ -725,3 +725,54 @@ const PaymentClockSvg = () => (
 export const PaymentClockIcon = (props) => (
   <Icon component={PaymentClockSvg} {...props} />
 );
+
+const SellGuideSvg = () => (
+  <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="217.000000pt" height="261.000000pt" viewBox="0 0 217.000000 261.000000"
+ preserveAspectRatio="xMidYMid meet">
+
+<g transform="translate(0.000000,261.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+</g>
+</svg>
+);
+
+export const SellGuideIcon = (props) => (
+  <Icon component={SellGuideSvg} {...props} />
+);
+
+const RentGuideSvg = () => (
+  <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="217.000000pt" height="261.000000pt" viewBox="0 0 217.000000 261.000000"
+ preserveAspectRatio="xMidYMid meet">
+
+<g transform="translate(0.000000,261.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+</g>
+</svg>
+);
+
+export const RentGuideIcon = (props) => (
+  <Icon component={RentGuideSvg} {...props} />
+);
+
+const BuyGuideSvg = () => (
+  <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="217.000000pt" height="261.000000pt" viewBox="0 0 217.000000 261.000000"
+ preserveAspectRatio="xMidYMid meet">
+
+<g transform="translate(0.000000,261.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+<path d="M1302 1768 c-7 -7 -12 -21 -12 -33 0 -38 19 -45 127 -45 l103 0 0
+-124 c0 -100 3 -128 16 -140 18 -19 28 -20 55 -6 18 10 19 23 19 173 0 114 -4
+167 -12 175 -8 8 -56 12 -148 12 -92 0 -140 -4 -148 -12z"/>
+<path d="M562 1184 c-21 -14 -22 -21 -22 -165 0 -85 5 -159 10 -170 10 -17 23
+-19 155 -19 132 0 145 2 155 19 14 27 13 37 -6 55 -12 12 -38 16 -115 16 l-99
+0 0 120 c0 107 -2 122 -20 140 -24 24 -29 24 -58 4z"/>
+</g>
+</svg>
+);
+
+export const BuyGuideIcon = (props) => (
+  <Icon component={BuyGuideSvg} {...props} />
+);

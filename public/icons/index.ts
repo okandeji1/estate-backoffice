@@ -35,9 +35,15 @@ import {
   PaymentCheckIcon,
   PaymentCancelIcon,
   PaymentClockIcon,
+  BuyGuideIcon,
+  RentGuideIcon,
+  SellGuideIcon
 } from "./icons";
 
 export {
+  SellGuideIcon,
+  RentGuideIcon,
+  BuyGuideIcon,
   HeartIcon,
   BankerIcon,
   MessageIcon,
